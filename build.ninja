@@ -8,5 +8,7 @@ rule link
  command = clang -o $out $in $ldflags
 
 build obj/main.o: compile src/main.c
-build bin/ctfdiff: link obj/main.o
+build obj/label.o: compile src/label.c
+
+build bin/ctfdiff: link obj/label.o obj/main.o
 
