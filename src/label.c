@@ -23,8 +23,6 @@ diff_label (ctf_label l1, ctf_label l2, unsigned int* diff_count)
 	char* n2;
 	int rv;
 
-	*diff_count = 0;
-
 	rv = ctf_label_get_name(l1, &n1);
 	if (ctf_is_error(rv))
 		return rv;
@@ -36,7 +34,7 @@ diff_label (ctf_label l1, ctf_label l2, unsigned int* diff_count)
 	if (strcmp(n1, n2) != 0)
 	{
 		printf("Different labels: '%s' =/= '%s'\n", n1, n2);
-		*diff_count = 1;
+		(*diff_count)++;
 	}
 
 	return CTF_OK;	
