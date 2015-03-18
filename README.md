@@ -32,6 +32,7 @@ ctfdiff [-afFhilLoOqtT] file1 file2
  * `-F name` compare function with the specified name (may repeat)
 
 ### Type options
+ * `-s` compare structs and unions 
  * `-t` compare all types
  * `-T name` compare type with the specified name (may repeat)
 
@@ -49,6 +50,9 @@ Two functions are equal, if they have the same name, return type and arguments
 ### Type
 Two types are equal, if they have the same kind and the variable data
 (properties and lists) stored with the type is the same (e.g. member offsets, enum entry values, integer content, float encoding, ...).
+
+#### Struct
+Two structs are equal, if they have the same member names and member offsets.
 
 ## Exit status 
 The result of the diff can be determined also by the return code/exit status of the
