@@ -6,6 +6,7 @@
 #include <sys/queue.h>
 
 #include "label.h"
+#include "struct.h"
 #include "string_list.h"
 
 /* exit status */
@@ -35,18 +36,23 @@ main (int argc, char* argv[])
 	int rv;
 	unsigned int diff_count = 0;
 	uint8_t l_flag = 0;
+	uint8_t s_flag = 0;
 	uint8_t t_flag = 0;
 	uint8_t T_flag = 0;
 	struct string_list_head types;
 
 	SLIST_INIT(&types);
 
-	while ((option = getopt(argc, argv, "hltT:")) != -1)
+	while ((option = getopt(argc, argv, "hlsStT:")) != -1)
 	{
 		switch(option)
 		{
 			case 'l': 
 				l_flag = 1;
+			break;
+
+			case 's':
+				s_flag = 1;
 			break;
 
 			case 't':
@@ -117,6 +123,17 @@ main (int argc, char* argv[])
 		}
 	}
 
+	if (s_flag)
+	{
+		rv = diff_structs(f1, f2, &diff_count);
+		if (ctf_is_error(rv))
+		{
+			fprintf(stderr, "ERROR: %s\n", ctf_get_error_string(rv));
+			return CTF_DIFF_INTERNAL_ERROR;
+		}
+	}
+
+/*
 	if (t_flag || T_flag)
 	{
 		rv = diff_types(f1, f2, t_flag, T_flag, &types, &diff_count);
@@ -126,6 +143,8 @@ main (int argc, char* argv[])
 			return CTF_DIFF_INTERNAL_ERROR;
 		}
 	}
+
+*/
 
 	return diff_count > 0 ? CTF_DIFF_NOT_EQUAL : CTF_DIFF_EQUAL;
 }
