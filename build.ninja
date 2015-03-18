@@ -2,13 +2,16 @@ cflags = -I/usr/include/libctf -Isrc
 ldflags = -lbsdctf
 
 rule compile
- command = clang $cflags -c $in -o $out
+ command = clang -g $cflags -c $in -o $out
 
 rule link
  command = clang -o $out $in $ldflags
 
 build obj/main.o: compile src/main.c
 build obj/label.o: compile src/label.c
+build obj/trie.o: compile src/trie.c
+build obj/list.o: compile src/list.c
+build obj/struct.o: compile src/struct.c
 
-build bin/ctfdiff: link obj/label.o obj/main.o
+build bin/ctfdiff: link obj/label.o obj/main.o obj/trie.o obj/struct.o obj/list.o
 
